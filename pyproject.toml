@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-eval-toolkit"
+version = "0.1.0"
+authors = [
+  { name="JATIN SIHAG", email="clyfergamer@gmail.com" },
+]
+description = "Modular Python SDK for deterministic grading, AST semantic diffing, and fuzzy scoring of LLM outputs."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.scripts]
+llm-eval = "llm_eval.cli:main"
