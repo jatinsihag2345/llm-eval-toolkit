@@ -14,4 +14,11 @@ class ExactMatchScorer:
             t = t.lower()
             
         is_match = (p == t)
-        return {"passed": is_match, "score": 1.0 if is_match else 0.0, "prediction": prediction, "ground_truth": ground_truth}
+        return {
+            "passed": is_match,
+            "score": 1.0 if is_match else 0.0,
+            "prediction": prediction,
+            "ground_truth": ground_truth,
+            "normalized_prediction": p,
+            "normalized_truth": t
+        }
