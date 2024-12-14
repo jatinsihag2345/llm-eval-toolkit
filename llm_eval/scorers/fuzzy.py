@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 from collections import Counter
 
 class FuzzyScorer:
