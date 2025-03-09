@@ -1,8 +1,20 @@
 from typing import Dict, Any
+from collections import Counter
 
 class FuzzyScorer:
-    """Calculates token-level F1, precision, recall, and Levenshtein similarity."""
+    """Calculates token-level F1, BLEU-1 approximation, and Levenshtein similarity."""
     
+    @staticmethod
+    def bleu_1(prediction: str, ground_truth: str) -> float:
+        p_tokens = prediction.strip().lower().split()
+        t_tokens = ground_truth.strip().lower().split()
+        if not p_tokens or not t_tokens:
+            return 1.0 if p_tokens == t_tokens else 0.0
+        p_counts = Counter(p_tokens)
+        t_counts = Counter(t_tokens)
+        clipped = sum(min(count, t_counts[token]) for token, count in p_counts.items())
+        return round(clipped / len(p_tokens), 4)
+
     @staticmethod
     def token_f1(prediction: str, ground_truth: str) -> Dict[str, float]:
         p_tokens = prediction.strip().lower().split()
