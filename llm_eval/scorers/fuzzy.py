@@ -2,7 +2,7 @@ from typing import Dict, Any
 from collections import Counter
 
 class FuzzyScorer:
-    """Calculates token-level F1, BLEU-1 approximation, and Levenshtein similarity."""
+    """Calculates token-level F1, BLEU-1 approximation, and Levenshtein similarity with linear space DP."""
     
     @staticmethod
     def bleu_1(prediction: str, ground_truth: str) -> float:
@@ -32,17 +32,13 @@ class FuzzyScorer:
 
     @staticmethod
     def levenshtein_similarity(s1: str, s2: str) -> float:
+        if s1 == s2: return 1.0
         m, n = len(s1), len(s2)
-        if m == 0 and n == 0:
-            return 1.0
-        if m == 0 or n == 0:
-            return 0.0
-        dp = [[0] * (n + 1) for _ in range(m + 1)]
-        for i in range(m + 1): dp[i][0] = i
-        for j in range(n + 1): dp[0][j] = j
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                cost = 0 if s1[i-1] == s2[j-1] else 1
-                dp[i][j] = min(dp[i-1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + cost)
-        dist = dp[m][n]
-        return round(1.0 - (dist / max(m, n)), 4)
+        if m == 0 or n == 0: return 0.0
+        prev = list(range(n + 1))
+        for i, c1 in enumerate(s1, 1):
+            curr = [i] * (n + 1)
+            for j, c2 in enumerate(s2, 1):
+                curr[j] = min(prev[j] + 1, curr[j-1] + 1, prev[j-1] + (0 if c1 == c2 else 1))
+            prev = curr
+        return round(1.0 - (prev[n] / max(m, n)), 4)
