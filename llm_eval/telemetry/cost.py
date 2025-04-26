@@ -2,7 +2,10 @@ from typing import Dict, Any
 
 MODEL_PRICING = {
     "gpt-4o": {"prompt": 2.50, "completion": 10.00},
+    "o1": {"prompt": 15.00, "completion": 60.00},
+    "o3-mini": {"prompt": 1.10, "completion": 4.40},
     "claude-3-5-sonnet": {"prompt": 3.00, "completion": 15.00},
+    "claude-3-7-sonnet": {"prompt": 3.00, "completion": 15.00},
     "deepseek-r1": {"prompt": 0.55, "completion": 2.19},
     "llama-3-70b": {"prompt": 0.70, "completion": 0.80}
 }
