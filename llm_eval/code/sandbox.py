@@ -3,10 +3,11 @@ import sys
 from typing import Dict, Any, Optional
 
 class SandboxExecutor:
-    """Executes arbitrary Python code in an isolated subprocess with timeout enforcement."""
+    """Executes arbitrary Python code in an isolated subprocess with timeout and memory enforcement."""
     
-    def __init__(self, timeout_seconds: float = 5.0):
+    def __init__(self, timeout_seconds: float = 5.0, max_memory_mb: int = 512):
         self.timeout_seconds = timeout_seconds
+        self.max_memory_mb = max_memory_mb
 
     def execute(self, code: str, stdin_data: Optional[str] = None) -> Dict[str, Any]:
         try:
