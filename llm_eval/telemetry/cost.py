@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 MODEL_PRICING = {
     "gpt-4o": {"prompt": 2.50, "completion": 10.00},
@@ -14,8 +14,8 @@ class TokenCostEstimator:
     """Calculates USD financial costs for prompt and completion token usages."""
     
     @staticmethod
-    def calculate(model_id: str, prompt_tokens: int, completion_tokens: int) -> Dict[str, Any]:
-        pricing = MODEL_PRICING.get(model_id.lower(), {"prompt": 2.0, "completion": 8.0})
+    def calculate(model_id: str, prompt_tokens: int, completion_tokens: int, custom_pricing: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+        pricing = custom_pricing or MODEL_PRICING.get(model_id.lower(), {"prompt": 2.0, "completion": 8.0})
         p_cost = (prompt_tokens / 1_000_000.0) * pricing["prompt"]
         c_cost = (completion_tokens / 1_000_000.0) * pricing["completion"]
         total = round(p_cost + c_cost, 6)
