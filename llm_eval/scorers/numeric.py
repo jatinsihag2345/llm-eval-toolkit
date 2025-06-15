@@ -5,10 +5,25 @@ class NumericToleranceScorer:
     """Validates floating point, integer, and scientific notation answers within epsilon."""
     
     @staticmethod
-    def parse_float(val: Union[str, float, int]) -> Union[float, None]:
+    def extract_boxed(text: str) -> str:
+        idx = text.rfind(r"\boxed{")
+        if idx == -1: return text
+        count, end = 1, -1
+        for i in range(idx + 7, len(text)):
+            if text[i] == '{': count += 1
+            elif text[i] == '}':
+                count -= 1
+                if count == 0:
+                    end = i
+                    break
+        return text[idx + 7:end] if end != -1 else text
+
+    @classmethod
+    def parse_float(cls, val: Union[str, float, int]) -> Union[float, None]:
         if isinstance(val, (int, float)):
             return float(val)
-        val_clean = re.sub(r'[^0-9eE.-]', '', str(val))
+        cleaned = cls.extract_boxed(str(val))
+        val_clean = re.sub(r'[^0-9eE.-]', '', cleaned)
         try:
             return float(val_clean)
         except ValueError:
