@@ -1,4 +1,6 @@
 from .exact import ExactMatchScorer
-from .scorers.numeric import NumericToleranceScorer
+from .numeric import NumericToleranceScorer
+from .fuzzy import FuzzyScorer
+from .jaccard import JaccardScorer
 
-__all__ = ['ExactMatchScorer', 'NumericToleranceScorer']
+__all__ = ['ExactMatchScorer', 'NumericToleranceScorer', 'FuzzyScorer', 'JaccardScorer']
